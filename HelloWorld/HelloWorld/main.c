@@ -7,24 +7,38 @@ void light_up_led(int led_no);
 void light_off_led(int led_no);
 void light_up_no(int no);
 void light_off_all();
+void wait_button_pressed();
 int is_prime(int no);
 
 
 int main(void)
 {
     DDRA = 0xff;            // setting all I/O's in port A as outputs
-	PORTA = 0XFF;
-		
+	DDRB = 0x00;
+	
 	for(int i = 1; i < 100; i++)
 		if(is_prime(i) == 1)
 		{
 			light_up_no(i);
-			_delay_ms(4000);
+			
+			wait_button_pressed();
+			
 			light_off_all();
 		}
 
 
 	
+}
+
+void wait_button_pressed()
+{	
+	unsigned char temp = PINB;
+	
+	while(PINB == temp);
+	temp = PINB;
+	while(PINB == temp);
+
+	return;
 }
 
 int is_prime(int no)
