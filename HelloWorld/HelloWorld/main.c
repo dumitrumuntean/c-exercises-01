@@ -3,15 +3,35 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+void light_up_led(int led_no);
+void light_off_led(int led_no);
+
+
 int main(void)
 {
     DDRA = 0xff;            // setting all I/O's in port A as outputs
-	
-	while(1)
+	PORTA = 0XFF;
+		
+	for(int i = 0; i < 8; i++)
 	{
-		PORTA = ~(4<<PA0);      // turning on led 0 (active low)
+		light_up_led(i);
 		_delay_ms(500);
-		PORTA = ~(0<<PA0);      // turning on led 0 (active low)
-		_delay_ms(500);
+		light_off_led(i);
 	}
+	
+	
 }
+
+void light_up_led(int led_no)
+{
+	PORTA &= ~(1<<led_no);
+	return;
+}
+
+void light_off_led(int led_no)
+{
+	PORTA |= (1 << led_no);
+	return;
+}
+
+
