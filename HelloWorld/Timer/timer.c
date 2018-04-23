@@ -27,20 +27,19 @@ void timer_destroy(timer_t self)
 	free(self);
 }
 
-void timer_start(timer_t self)
+void timer_start(display_t display ,timer_t self)
 {
 	self->started = true;
-	DDRA = 0xFF;
-	DDRB = 0;
-	
-	display_t display = display_create(&PORTA);
-	light_off_all(display);
 
+	light_off_all(display);
+	
 	while(self->time > 0)
-	{			
+	{	
+				
 		light_up_no(display, self->time);
 		_delay_ms(1000);
 		light_off_all(display);
+		
 		self->time--;
 	}	
 	self->started = false;
@@ -58,4 +57,24 @@ void timer_setTime(timer_t self, int time)
 int timer_getTime(timer_t self)
 {
 	return self->time;
+}
+
+void timer_increment_time(timer_t self)
+{
+		self->time++;
+}
+void timer_decrement_time(timer_t self)
+{
+	self->time--;
+}
+
+void timer_stop(timer_t self)
+{
+	self->started = false;
+}
+
+void timer_continue(display_t display, timer_t self)
+{
+	self->started = true;
+	timer_start(display, self);
 }

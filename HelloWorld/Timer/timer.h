@@ -18,9 +18,13 @@ typedef struct timer * timer_t;
 timer_t timer_create(int time2);
 void timer_destroy(timer_t self);
 
-void timer_start(timer_t self);
-bool timer_isStarted(timer_t self);
+void timer_start(display_t display, timer_t self);
+bool timer_isStarted( timer_t self);
 void timer_setTime(timer_t self, int time);
+void timer_increment_time(timer_t self);
+void timer_decrement_time(timer_t self);
+void timer_stop(timer_t self);
+void timer_continue(display_t display, timer_t self);
 int timer_getTime(timer_t self);
 
 #endif
